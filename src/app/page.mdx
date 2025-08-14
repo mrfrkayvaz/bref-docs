@@ -1,1 +1,13 @@
-test
+# What is bref
+
+Bref is a compact and minimal data format, designed to solve one of JSON’s common annoyances: repetitive keys.  
+If you’ve ever worked with large JSON datasets, you’ve probably noticed the same keys appearing over and over, making the file longer and harder to read. Bref addresses this by allowing you to define schemas upfront, resulting in cleaner and more structured data.
+
+The name comes from French, where *bref* means “brief” or “short,” reflecting its focus on compactness.
+
+Simply put, it’s a way to store your data like this:
+
+![Bref Data Example](https://mrfrk-images.s3.us-east-1.amazonaws.com/bref_example.webp)
+
+This isn’t magic — it’s just a straightforward trick.  
+In JSON data, we often see repeating keys, and with bref, we can define those keys once and then reuse them as the object’s type.

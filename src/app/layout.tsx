@@ -10,12 +10,11 @@ export const metadata = {
  
 const navbar = (
   <Navbar
-    logo={<b>:Bref</b>}
+    logo={<b>:bref</b>}
     // ... Your additional navbar options
   />
 )
-const footer = <Footer>MIT {new Date().getFullYear()} © Nextra.</Footer>
- 
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -36,7 +35,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           navbar={navbar}
           pageMap={await getPageMap()}
           docsRepositoryBase="https://github.com/shuding/nextra/tree/main/docs"
-          footer={footer}
           // ... Your additional layout options
         >
           {children}

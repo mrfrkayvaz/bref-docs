@@ -1,0 +1,104 @@
+# JSON vs Bref
+
+When dealing with datasets that contain **heavily repetitive structures**, JSON can quickly become inefficient.
+
+### Downsides of JSON in highly repetitive data
+- **Excessive file size**: Keys are repeated for every object, increasing the payload size dramatically.
+- **Slower parsing**: The parser must read the same key strings over and over again.
+- **Higher memory usage**: More characters mean more memory to store and process.
+
+JSON:
+```json
+[
+  {
+    "title": "Bohemian Rhapsody",
+    "duration": "5:55",
+    "genre": "Rock",
+    "album": {
+      "title": "A Night at the Opera",
+      "year": 1975,
+      "band": {
+        "name": "Queen",
+        "country": "UK"
+      }
+    },
+    "streams": 1980000000,
+    "is_favorite": true
+  },
+  {
+    "title": "Smells Like Teen Spirit",
+    "duration": "5:01",
+    "genre": "Alternative Rock",
+    "album": {
+      "title": "Nevermind",
+      "year": 1991,
+      "band": {
+        "name": "Nirvana",
+        "country": "USA"
+      }
+    },
+    "streams": 1750000000,
+    "is_favorite": true
+  },
+  {
+    "title": "Hotel California",
+    "duration": "6:30",
+    "genre": "Rock",
+    "album": {
+      "title": "Hotel California",
+      "year": 1976,
+      "band": {
+        "name": "Eagles",
+        "country": "USA"
+      }
+    },
+    "streams": 1640000000,
+    "is_favorite": false
+  },
+  {
+    "title": "Wonderwall",
+    "duration": "4:18",
+    "genre": "Alternative Rock",
+    "album": {
+      "title": "(What's the Story) Morning Glory?",
+      "year": 1995,
+      "band": {
+        "name": "Oasis",
+        "country": "UK"
+      }
+    },
+    "streams": 1430000000,
+    "is_favorite": true
+  }
+]
+```
+
+Bref:
+```json
+:artist { name, country }
+:album { title, year, artist:artist }
+:song { title, duration, genre, album:album, streams, is_favorite }
+
+[
+  {
+  	"Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },
+    1980000000, true
+  },
+  {
+  	"Smells Like Teen Spirit", "5:01", "Alternative Rock",
+    { "Nevermind", 1991, { "Nirvana", "USA" } },
+    1750000000, true
+  },
+  {
+  	"Hotel California", "6:30", "Rock",
+    { "Hotel California", 1976, { "Eagles", "USA" } },
+    1640000000, false
+  },
+  {
+  	"Wonderwall", "4:18", "Alternative Rock",
+    { "(What's the Story) Morning Glory?", 1995, { "Oasis", "UK" } },
+    1430000000, true
+  }
+]: song
+```
