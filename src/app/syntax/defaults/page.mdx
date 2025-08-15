@@ -1,0 +1,89 @@
+# Defaults
+
+One of the biggest sources of repetition in JSON data is the presence of default values. For example, imagine you have a field called is_favorite and, in most songs, this value is false. This means that, depending on the size of your dataset, the value false will be written over and over again. With Bref, you can assign default values to your data.
+
+You can see an example of this in the following:
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite: false }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, .
+  },
+  {
+    "Smells Like Teen Spirit", "5:01", "Alternative Rock",
+    { "Nevermind", 1991, { "Nirvana", "USA" } },
+    1750000000, .
+  }
+]: song
+```
+
+With the dot notation, a default value is assigned for the corresponding key.
+
+Or, you can also use the following approach:
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite: false }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000
+  },
+  {
+    "Smells Like Teen Spirit", "5:01", "Alternative Rock",
+    { "Nevermind", 1991, { "Nirvana", "USA" } },
+    1750000000
+  }
+]: song . { is_favorite }
+```
+
+In the previous section, under the Missing Data heading, we mentioned that if the last value is missing, you can simply skip it without writing anything. Bref prioritizes default values over missing data. In other words, in the scenario below, the value will not be considered missing because a default value exists — instead, the default value will be applied.
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite: false }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000
+  },
+  {
+    "Smells Like Teen Spirit", "5:01", "Alternative Rock",
+    { "Nevermind", 1991, { "Nirvana", "USA" } },
+    1750000000
+  }
+]: song
+```
+
+You can also define defaults in nested data.
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name: "Queen", country: "UK" }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, . },  
+    1980000000
+  },
+  {
+    "Smells Like Teen Spirit", "5:01", "Alternative Rock",
+    { "Nevermind", 1991, { "Nirvana", "USA" } },
+    1750000000
+  }
+]: song
+```

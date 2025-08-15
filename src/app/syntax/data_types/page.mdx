@@ -1,0 +1,77 @@
+# Data Types
+
+> [!TIP]
+>
+> Since Bref **supports JSON by default**, its data types are exactly the same as JSON.
+
+You can use the following **6 fundamental JSON data types** in your Bref files.
+
+### 1. String
+
+Represents text values. Written inside double quotes (`"..."`).  
+Supports escape characters (`\\"`, `\\n`, `\\t`, etc.).
+
+```json
+{ "title": "Bohemian Rhapsody" }
+```
+
+### 2. Number
+
+Represents integers or floating-point numbers.  
+The decimal separator is a dot (`.`).  
+Special values like `NaN` or `Infinity` are **not** supported.
+
+```json
+{ "streams": 1980000000, "duration": 5.55 }
+```
+
+### 3. Boolean
+
+Represents logical values: `true` or `false`.
+
+```json
+{ "is_favorite": true }
+```
+
+### 4. Null
+
+Represents a missing or unknown value.  
+It is **not** a string (`"null"` is different).
+
+```json
+{ "album": null }
+```
+
+### 5. Object
+
+Represents a collection of key–value pairs.  
+Defined with curly braces `{}`.
+
+```json
+{
+  "title": "Bohemian Rhapsody",
+  "duration": "5:55"
+}
+```
+
+> [!TIP]
+>
+> In Bref, when you use type definitions for objects, you don’t need to include the keys explicitly — only the values in the defined order.
+
+```json
+:song { title, duration }
+
+{
+  "Bohemian Rhapsody", "5:55"
+}: song
+```
+
+### 6. Array
+
+Represents an ordered list of values.  
+Defined with square brackets `[]`.  
+The values can be of different data types.
+
+```json
+[ "Rock", "Pop", "Jazz" ]
+```

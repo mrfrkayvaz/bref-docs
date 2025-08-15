@@ -1,0 +1,40 @@
+# Tools
+
+Maybe one day, the Bref format will be natively supported by programming languages. Just a dream. Until that day comes, you can use Bref converters to transform your Bref data into JSON on the fly.
+
+### Python
+[Python Bref Extension](https://bref.dev)
+
+```python
+import bref
+
+with open("data.bref", "r", encoding="utf-8") as f:
+  content = bref.toJSON(f.read())
+
+print(content)
+```
+
+### NodeJS
+[NodeJS Bref Extension](https://bref.dev)
+
+```js
+import fs from 'fs';
+import bref from 'bref';
+
+const content = fs.readFileSync('data.bref', 'utf8');
+const data = bref.toJSON(content);
+console.log(content);
+```
+
+### PHP
+[PHP Bref Extension](https://bref.dev)
+
+```php
+<?php
+
+use Bref\Bref;
+
+$content = file_get_contents("data.bref");
+$data = Bref::toJSON($content);
+echo $content;
+```

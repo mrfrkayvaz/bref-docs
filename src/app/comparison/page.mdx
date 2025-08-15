@@ -1,11 +1,16 @@
-# JSON vs Bref
+# How Bref Differs from JSON
 
 When dealing with datasets that contain **heavily repetitive structures**, JSON can quickly become inefficient.
 
-### Downsides of JSON in highly repetitive data
-- **Excessive file size**: Keys are repeated for every object, increasing the payload size dramatically.
-- **Slower parsing**: The parser must read the same key strings over and over again.
-- **Higher memory usage**: More characters mean more memory to store and process.
+Issues arising from repetitive keys in JSON:
+
+😩 **Excessive file size**: Keys are repeated for every object, increasing the payload size dramatically.
+
+😞 **Slower parsing**: The parser must read the same key strings over and over again.
+
+🥺 **Higher memory usage**: More characters mean more memory to store and process.
+
+Bref provides a structure that can solve all these problems. To give you an idea, let’s look at a simple data comparison.
 
 JSON:
 ```json

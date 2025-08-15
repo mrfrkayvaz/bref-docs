@@ -1,0 +1,262 @@
+# Irregular Data
+
+Bref offers multiple options for representing irregular data. We’ll go through each of these options. If all these features feel too complex, you can simply use JSON for the parts of your dataset that contain irregular data.
+
+### Type Definition Mismatch
+
+You can switch to the JSON format and define the keys for parts that don’t match the repeating data.
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true
+  },
+  {
+    "Smells Like Teen Spirit", "5:01", "Alternative Rock",
+    { "Nevermind", 1991, { "Nirvana", "USA" } },
+    1750000000, true
+  },
+  {
+    release_date: "1973-03-01",
+    awards: ["Grammy Hall of Fame", "UK Music Hall of Fame"],
+    producer: "Roy Thomas Baker"
+  }
+]: song
+```
+
+The :song type definition will not be applied to our last object since all of its keys are different from those defined in :song.
+
+Alternatively, you can create a custom type definition for the object that doesn’t match the repeating data.
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+:special_song { release_date, awards, producer }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true
+  },
+  {
+    "Smells Like Teen Spirit", "5:01", "Alternative Rock",
+    { "Nevermind", 1991, { "Nirvana", "USA" } },
+    1750000000, true
+  },
+  {
+    "1973-03-01", ["Grammy Hall of Fame", "UK Music Hall of Fame"], "Roy Thomas Baker"
+  }: special_song
+]: song
+```
+
+### Missing Data
+
+First of all, if the missing data is at the end of the object, we can simply omit it.
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true
+  },
+  {
+    "Smells Like Teen Spirit", "5:01", "Alternative Rock",
+    { "Nevermind", 1991, { "Nirvana", "USA" } }
+  }
+]: song
+```
+
+In the second object, the streams and is_favorite keys are missing. Since they are at the end of the object, we didn’t write them.
+
+If the missing data is at the beginning or in an irregular order, you can use the following format:
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true
+  },
+  {
+    "Smells Like Teen Spirit", "Alternative Rock",
+    { "Nevermind", 1991, { "Nirvana", "USA" } },
+    true
+  }: !{ duration, streams }
+]: song
+```
+
+This usage is also valid:
+
+```json
+{
+  "Smells Like Teen Spirit", "Alternative Rock",
+  { "Nevermind", 1991, { "Nirvana", "USA" } },
+  true
+}: song !{ duration, streams }
+```
+
+and so is this:
+
+```json
+{
+  "Smells Like Teen Spirit", "Alternative Rock",
+  { "Nevermind", { "Nirvana", "USA" } }: !{ year },
+  true
+}: song !{ duration, streams }
+```
+
+and so too:
+
+```json
+{
+  "Smells Like Teen Spirit", "Alternative Rock",
+  { "Nevermind", { "Nirvana", "USA" } },
+  true
+}: song !{ duration, album: { year }, streams }
+```
+
+If you don’t care much about how your data looks, you can also opt for this usage:
+
+```json
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true
+  },
+  {
+    "Smells Like Teen Spirit", "5:01", "Alternative Rock",
+    { "Nevermind", , { "Nirvana", "USA" } }, , true
+  }
+]: song
+```
+
+### Extra Data
+If you want to append extra data at the end of the object, you can use the following format:
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true, "Epic"
+  }: &{ mood }
+]: song
+```
+
+This also works:
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true, "Epic"
+  }: song &{ mood }
+]: song
+```
+
+And so too:
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true, mood: "Epic"
+  }
+]: song
+```
+
+You can insert extra data anywhere in the object by specifying the key name:
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock", mood: "Epic",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true
+  }
+]: song
+```
+
+For data that should appear at the beginning of the object, you can also use this approach:
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Epic", "English", "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true
+  }: { mood, language } & song
+]: song
+```
+
+You can also combine this for data added to both the beginning and the end of the object:
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Epic", "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" } },  
+    1980000000, true, "English"
+  }: { mood } & song & { language }
+]: song
+```
+
+And this also works:
+
+```json
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band }
+:band { name, country }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { "A Night at the Opera", 1975, { "Queen", "UK" }, "English" }: & { language },  
+    1980000000, true
+  }
+]: song
+```

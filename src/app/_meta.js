@@ -1,5 +1,8 @@
 export default {
   index: 'Introduction',
   comparison: 'Bref vs JSON',
-  syntax: 'Syntax'
+  syntax: 'Syntax',
+  file_properties: 'File Properties',
+  tools: 'Tools',
+  performance_benchmark: 'Performance Benchmark'
 }
