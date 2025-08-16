@@ -4,7 +4,9 @@ Bref offers multiple options for representing irregular data. We’ll go through
 
 ### Type Definition Mismatch
 
-You can switch to the JSON format and define the keys for parts that don’t match the repeating data.
+> [!TIP]
+>
+> You can switch to the JSON format and define the keys for parts that don’t match the repeating data.
 
 ```json
 :song { title, duration, genre, album:album, streams, is_favorite }
@@ -59,7 +61,7 @@ Alternatively, you can create a custom type definition for the object that doesn
 
 ### Missing Data
 
-First of all, if the missing data is at the end of the object, we can simply omit it.
+First of all, if the missing data is at the end of the object, it can simply be omitted. If a default value is defined, that default will be used instead.
 
 ```json
 :song { title, duration, genre, album:album, streams, is_favorite }
