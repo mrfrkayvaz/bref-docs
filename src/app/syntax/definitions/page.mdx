@@ -5,7 +5,7 @@ Since Bref supports JSON, we’ll use JSON data for this example.
 
 This is what our data looks like:
 
-```json
+```json copy
 {
   "title": "Bohemian Rhapsody",
   "duration": "5:55",
@@ -19,7 +19,7 @@ In the Bref format, we start with a colon <span style={{color: 'red'}}>`:`</span
 
 We can define the structure of our data as follows:
 
-```json
+```json copy
 :song { title, duration, streams, is_favorite }
 
 { "Bohemian Rhapsody", "5:55", 1980000000, true }: song
@@ -27,7 +27,7 @@ We can define the structure of our data as follows:
 
 In scenarios where you will use a type definition only once, you can also place it at the end of the object.
 
-```json
+```json copy
 { "Bohemian Rhapsody", "5:55", 1980000000, true }: { title, duration, streams, is_favorite }
 ```
 
@@ -38,7 +38,7 @@ In scenarios where you will use a type definition only once, you can also place 
 You can also define nested data structures in the same way.
 Let’s add some new keys to our data. Here’s the updated version:
 
-```json
+```json copy
 {
   "title": "Bohemian Rhapsody",
   "duration": "5:55",
@@ -58,7 +58,7 @@ Let’s add some new keys to our data. Here’s the updated version:
 
 In the Bref format, we again apply the same process by defining types.
 
-```json
+```json copy
 :song { title, duration, genre, album:album, streams, is_favorite }
 :album { title, year, band:band }
 :band { name, country }
@@ -74,7 +74,7 @@ In the Bref format, we again apply the same process by defining types.
 ### Array Type Definitions
 We can apply exactly the same process we used for objects to define types for arrays.
 
-```json
+```json copy
 :song { title, duration, genre, album:album, streams, is_favorite }
 :album { title, year, band:band }
 :band { name, country }
@@ -92,14 +92,34 @@ We can apply exactly the same process we used for objects to define types for ar
   }
 ]: song
 ```
-<br/>
 
+If you want to define an array inside an object, you can specify it like this:
+
+```json copy
+:song { title, duration, genre, album:album, streams, is_favorite }
+:album { title, year, band:band, tracks:track[] } 
+:band { name, country }
+:track { title }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    { 
+      "A Night at the Opera", 1975, { "Queen", "UK" }, 
+      [ { "Love of My Life" }, { "You're My Best Friend" } ] 
+    },
+    1980000000, true
+  }
+]: song
+```
+
+<br/>
 ### Value Definitions
 If we can define keys, we can just as easily define repeating values too.
 When certain values appear over and over in your data, you can turn them into variables.
 
 Imagine we have the following data.
-```json
+```json copy
 [
   {
     "store": "TeknoMarket",
@@ -121,7 +141,7 @@ Imagine we have the following data.
 ```
 
 In Bref, we can turn repeating values into definitions.
-```json
+```json copy
 :store { name, address:address }
 :address { country, city, town }
 

@@ -1,10 +1,10 @@
 # Defaults
 
-One of the biggest sources of repetition in JSON data is the presence of default values. For example, imagine you have a field called is_favorite and, in most songs, this value is false. This means that, depending on the size of your dataset, the value false will be written over and over again. With Bref, you can assign default values to your data.
+One of the biggest sources of repetition in JSON data is the presence of default values. For example, imagine you have a field called is_favorite and, in most songs, this value is false. This means that, depending on the size of your dataset, the value false will be written over and over again. With Bref, you can assign default values to your data. To indicate a default value, you should use the <span style={{color: 'red'}}>`.`</span> symbol.
 
 You can see an example of this in the following:
 
-```json
+```json copy
 :song { title, duration, genre, album:album, streams, is_favorite: false }
 :album { title, year, band:band }
 :band { name, country }
@@ -27,7 +27,7 @@ With the dot notation, a default value is assigned for the corresponding key.
 
 Or, you can also use the following approach:
 
-```json
+```json copy
 :song { title, duration, genre, album:album, streams, is_favorite: false }
 :album { title, year, band:band }
 :band { name, country }
@@ -48,7 +48,7 @@ Or, you can also use the following approach:
 
 You can also define defaults in nested data.
 
-```json
+```json copy
 :song { title, duration, genre, album:album, streams, is_favorite }
 :album { title, year, band:band }
 :band { name: "Queen", country: "UK" }
@@ -57,19 +57,40 @@ You can also define defaults in nested data.
   {
     "Bohemian Rhapsody", "5:55", "Rock",
     { "A Night at the Opera", 1975, . },  
-    1980000000
+    1980000000, false
   },
   {
     "Smells Like Teen Spirit", "5:01", "Alternative Rock",
     { "Nevermind", 1991, { "Nirvana", "USA" } },
-    1750000000
+    1750000000, false
+  }
+]: song
+```
+<br />
+As you can see in the example above, for nested data, Bref automatically applies the default structure defined within the nested type. If you want to explicitly assign null as the default for a nested value, or provide a different default structure, you can append the default value to the type definition using the : symbol. This rule also applies to arrays. See the examples below for reference.
+
+```json copy
+:song { title, duration, genre, album:album:null, streams, is_favorite }
+:album { title, year, band:band }
+:band { name: "Queen", country: "UK" }
+
+[
+  {
+    "Bohemian Rhapsody", "5:55", "Rock",
+    .,
+    1980000000, false
+  },
+  {
+    "Smells Like Teen Spirit", "5:01", "Alternative Rock",
+    { "Nevermind", 1991, { "Nirvana", "USA" } },
+    1750000000, false
   }
 ]: song
 ```
 
 As a convenience, if the default values you defined are at the end of the object, you don’t need to use the . placeholder — you can simply omit the field. If no default is defined, the data will be treated as completely missing.
 
-```json
+```json copy
 :song { title, duration, genre, album:album, streams, is_favorite: false }
 :album { title, year, band:band }
 :band { name, country }

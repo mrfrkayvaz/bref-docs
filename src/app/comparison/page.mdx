@@ -13,7 +13,7 @@ Issues arising from repetitive keys in JSON:
 Bref provides a structure that can solve all these problems. To give you an idea, let’s look at a simple data comparison.
 
 JSON:
-```json
+```json copy
 [
   {
     "title": "Bohemian Rhapsody",
@@ -79,7 +79,7 @@ JSON:
 ```
 
 Bref:
-```json
+```json copy
 :artist { name, country }
 :album { title, year, artist:artist }
 :song { title, duration, genre, album:album, streams, is_favorite }
