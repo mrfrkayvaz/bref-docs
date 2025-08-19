@@ -4,5 +4,5 @@ export default {
   syntax: 'Syntax',
   file_properties: 'File Properties',
   tools: 'Tools',
-  performance_benchmark: 'Performance Benchmark'
+  performance_benchmarks: 'Performance Benchmarks'
 }
