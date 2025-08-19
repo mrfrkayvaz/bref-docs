@@ -1,15 +1,16 @@
 # Tools
 
-Maybe one day, the Bref format will be natively supported by programming languages. Until that day comes, you can rely on Bref converters to seamlessly transform your data into JSON on the fly.
+Maybe one day, the Bref format will be natively supported by programming languages. Until that day comes, you can parse Bref strings and perform JSON conversions using the tools below.
 
 ### Python
-[Python Bref Extension](https://github.com/mrfrkayvaz/bref)
+<span style={{color: '#303F9F'}}>Coming soon</span>
 
 ```python copy
 import bref
 
-with open("data.bref", "r", encoding="utf-8") as f:
-  content = bref.toJSON(f.read())
+file_path = Path(__file__).parent / "data.bref"
+data = file_path.read_text(encoding="utf-8")
+content = bref.parse(data)
 
 print(content)
 ```
@@ -21,8 +22,8 @@ print(content)
 import fs from 'fs';
 import bref from 'bref';
 
-const content = fs.readFileSync('data.bref', 'utf8');
-const data = bref.toJSON(content);
+const data = fs.readFileSync('data.bref', 'utf8');
+const content = bref.parse(data);
 console.log(content);
 ```
 
@@ -34,7 +35,7 @@ console.log(content);
 
 use Bref\Bref;
 
-$content = file_get_contents("data.bref");
-$data = Bref::toJSON($content);
+$data = file_get_contents("data.bref");
+$content = Bref::parse($data);
 echo $content;
 ```
